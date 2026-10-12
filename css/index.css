@@ -1,0 +1,30 @@
+body {
+    background-color: #f1f3f5;
+}
+
+.bento-box {
+    background-color: #F5F2EB;
+    background-color: #F5F2EB;
+    border: 1px solid #D2C8B8;
+    color: #2F241F;
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    height: 100%;
+}
+
+.char-portrait {
+    background-size: cover;
+
+    background-position: center;  
+    background-repeat: no-repeat;
+    border-radius: 1rem;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: block;
+}
+
+.stat-box {
+    background-color: #f8f9fa;
+    border-radius: 0.75rem;
+    border: 1px solid #e9ecef;
+}
