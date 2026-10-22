@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     var games = [
         {
             gameName: "Batman: Arkham Knight",
-            gamePrice: 499.95,
+            oldPrice: 499.95,
+            currPrice: 99.99,
             gameDiscount: 80,
             gameImage: "https://cdn2.steamgriddb.com/thumb/4f2495bbd12fa12eebe41dc648f6500a.jpg",
             genres: [
@@ -15,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             gameName: "Grand Theft Auto V",
-            gamePrice: 996.00,
+            oldPrice: 996.00,
+            currPrice: 498.00,
             gameDiscount: 50,
             gameImage: "https://cdn2.steamgriddb.com/thumb/e68aea589393df47d1ffb43dcdbdff49.jpg",
             genres: [
@@ -28,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             gameName: "Stardew Valley",
-            gamePrice: 419.95,
+            oldPrice: 419.95,
+            currPrice: 335.96,
             gameDiscount: 20,
             gameImage: "https://cdn2.steamgriddb.com/thumb/3bb825b7eaf65738d8850a96bcdb3532.jpg",
             genres: [
@@ -41,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             gameName: "Red Dead Redemption 2",
-            gamePrice: 3399.00,
+            oldPrice: 3399.00,
+            currPrice: 849.75,
             gameDiscount: 75,
             gameImage: "https://cdn2.steamgriddb.com/thumb/36e87c365a5ddd475a82c220be840853.jpg",
             genres: [
@@ -54,7 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             gameName: "NBA 2K27",
-            gamePrice: 3490.00,
+            oldPrice: 3490.00,
+            currPrice: 2443.00,
             gameDiscount: 30,
             gameImage: "https://cdn2.steamgriddb.com/thumb/f84188cb2659a5c8c875d7f0e9fc847c.jpg",
             genres: [
@@ -68,8 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     var elParent = document.getElementById("parent");
     for (var i = 0; i < games.length; i++) {
-        var price = Number(games[i].gamePrice) || 0;
-        var discount = Number(games[i].gameDiscount) || 0;
+        var curr_price = Number(games[i].currPrice);
+        var old_price = Number(games[i].oldPrice);
+        var discount = Number(games[i].gameDiscount);
         var genreObj = games[i].genres[0];
         elParent.innerHTML +=
             `<section class="mb-5">
@@ -110,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <div class="steam-price-block">
                                         <div class="steam-discount-badge">-`+ discount + `%</div>
                                         <div class="steam-price-details">
-                                            <span class="steam-old-price">$59.99</span>
-                                            <span class="steam-final-price">` + price + `</span>
+                                            <span class="steam-old-price">₱` + old_price.toFixed(2) + `</span>
+                                            <span class="steam-final-price">₱` + curr_price.toFixed(2) + `</span>
                                         </div>
                                     </div>
                                 </div>
