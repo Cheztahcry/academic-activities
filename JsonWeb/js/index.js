@@ -78,54 +78,49 @@ document.addEventListener('DOMContentLoaded', () => {
         var discount = Number(games[i].gameDiscount);
         var genreObj = games[i].genres[0];
         elParent.innerHTML +=
-            `<section class="mb-5">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+            `<div class="col">
+    <div class="steam-card-vertical h-100 d-flex flex-column">
+        <div class="card-img-wrapper">
+            <button class="wishlist-btn" title="Add to Wishlist"><i class="bi bi-plus-lg"></i></button>
+            <img src="` + games[i].gameImage + `">
+        </div>
 
-                <div class="col">
-                    <div class="steam-card-vertical h-100 d-flex flex-column">
-                        <div class="card-img-wrapper">
-                            <button class="wishlist-btn" title="Add to Wishlist"><i class="bi bi-plus-lg"></i></button>
-                            <img src="` + games[i].gameImage + `">
-                        </div>
+        <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between">
+            <div>
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                    <h3 class="h6 mb-0 fw-bold">
+                        <a href="#" class="steam-title-link">` + games[i].gameName + `</a>
+                    </h3>
+                </div>
+                
+                <div class="d-flex flex-wrap gap-1 mb-3">
+                    <span class="steam-tag">` + genreObj.genreFirst + `</span>
+                    <span class="steam-tag">` + genreObj.genreSecond + `</span>
+                    <span class="steam-tag">` + genreObj.genreThird + `</span>
+                </div>
+            </div>
 
-                        <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between">
-                            <div>
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <h3 class="h6 mb-0 fw-bold">
-                                        <a href="#" class="steam-title-link">` + games[i].gameName + `</a>
-                                    </h3>
-                                </div>
-                                
-                                <div class="d-flex flex-wrap gap-1 mb-3">
-                                    <span class="steam-tag">` + genreObj.genreFirst + `</</span>
-                                    <span class="steam-tag">` + genreObj.genreSecond + `</</span>
-                                    <span class="steam-tag">` + genreObj.genreThird + `</</span>
-                                </div>
-                            </div>
+            <div>
+                <div class="d-flex align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-25">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-windows platform-icon" title="Windows"></i>
+                        <i class="bi bi-apple platform-icon" title="macOS"></i>
+                        <span class="deck-badge" title="Steam Deck Verified">
+                            <i class="bi bi-check-circle-fill"></i> <i class="bi bi-controller"></i>
+                        </span>
+                    </div>
 
-                            <div>
-                                <div class="d-flex align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-25">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <i class="bi bi-windows platform-icon" title="Windows"></i>
-                                        <i class="bi bi-apple platform-icon" title="macOS"></i>
-                                        <span class="deck-badge" title="Steam Deck Verified">
-                                            <i class="bi bi-check-circle-fill"></i> <i class="bi bi-controller"></i>
-                                        </span>
-                                    </div>
-
-                                    <div class="steam-price-block">
-                                        <div class="steam-discount-badge">-`+ discount + `%</div>
-                                        <div class="steam-price-details">
-                                            <span class="steam-old-price">₱` + old_price.toFixed(2) + `</span>
-                                            <span class="steam-final-price">₱` + curr_price.toFixed(2) + `</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="steam-price-block">
+                        <div class="steam-discount-badge">-` + discount + `%</div>
+                        <div class="steam-price-details">
+                            <span class="steam-old-price">₱` + old_price.toFixed(2) + `</span>
+                            <span class="steam-final-price">₱` + curr_price.toFixed(2) + `</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>`;
+        </div>
+    </div>
+    </div>`;
     }
 });
