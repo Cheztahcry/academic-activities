@@ -1,0 +1,166 @@
+:root {
+    --steam-bg-dark: #101822;
+    --steam-card-bg: #16202d;
+    --steam-card-hover: #1f2f42;
+    --steam-card-border: rgba(255, 255, 255, 0.07);
+    --steam-blue: #66c0f4;
+    --steam-text: #c6d4df;
+    --steam-text-muted: #8f98a0;
+    --steam-discount-bg: #4c6b22;
+    --steam-discount-text: #a4d007;
+    --steam-price-box-bg: #000000;
+    --steam-deck-verified: #58c673;
+}
+
+body {
+    background-color: var(--steam-bg-dark);
+    color: var(--steam-text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    min-height: 100vh;
+    padding-bottom: 3rem;
+}
+
+a.steam-title-link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.steam-card-vertical {
+    background-color: var(--steam-card-bg);
+    border: 1px solid var(--steam-card-border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.steam-card-vertical:hover {
+    background-color: var(--steam-card-hover);
+    border-color: rgba(102, 192, 244, 0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(102, 192, 244, 0.15);
+}
+
+.steam-card-vertical .card-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 460 / 215;
+    background-color: #0c121a;
+}
+
+.steam-card-vertical .card-img-wrapper img,
+.steam-card-vertical .card-img-wrapper .img-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.steam-card-vertical:hover .card-img-wrapper img,
+.steam-card-vertical:hover .card-img-wrapper .img-placeholder {
+    transform: scale(1.05);
+}
+
+.steam-card-vertical:hover .steam-title-link {
+    color: var(--steam-blue);
+}
+
+.wishlist-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease;
+    z-index: 2;
+}
+
+.steam-card-vertical:hover .wishlist-btn {
+    opacity: 1;
+}
+
+.wishlist-btn:hover {
+    background: var(--steam-blue);
+    color: #000;
+    border-color: var(--steam-blue);
+}
+
+.steam-price-block {
+    display: inline-flex;
+    align-items: stretch;
+    background-color: var(--steam-price-box-bg);
+    border-radius: 2px;
+    overflow: hidden;
+    height: 34px;
+}
+
+.steam-discount-badge {
+    background-color: var(--steam-discount-bg);
+    color: var(--steam-discount-text);
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.5px;
+}
+
+.steam-price-details {
+    padding: 2px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    line-height: 1.1;
+}
+
+.steam-old-price {
+    text-decoration: line-through;
+    color: var(--steam-text-muted);
+    font-size: 0.75rem;
+}
+
+.steam-final-price {
+    color: var(--steam-discount-text);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.steam-tag {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--steam-text-muted);
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.platform-icon {
+    color: var(--steam-text-muted);
+    font-size: 0.85rem;
+    transition: color 0.2s ease;
+}
+
+.steam-card-vertical:hover .platform-icon {
+    color: var(--steam-text);
+}
+
+.deck-badge {
+    color: var(--steam-deck-verified);
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
