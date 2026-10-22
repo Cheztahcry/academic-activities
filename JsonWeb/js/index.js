@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             oldPrice: 3490.00,
             currPrice: 2443.00,
             gameDiscount: 30,
-            gameImage: "https://cdn2.steamgriddb.com/thumb/f84188cb2659a5c8c875d7f0e9fc847c.jpg",
+            gameImage: "https://cdn2.steamgriddb.com/thumb/85e3916c8bf2375dff1a479b396059f0.jpg",
             genres: [
                 {
                     genreFirst: "Sports",
