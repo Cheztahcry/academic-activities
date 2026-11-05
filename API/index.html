@@ -3,66 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smoke</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="css/index.css" rel="stylesheet">
+  <title>Smoke - Steam Game Explorer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="css/index.css" rel="stylesheet">
 </head>
-<body>
+<body class="steam-bg text-light min-vh-100">
 
 <div class="container py-5">
-  <div class="input-group search-box mb-4 mx-auto">
-    <input type="text" id="gameQuery" class="form-control text-light" placeholder="Search a game (e.g., Portal, Witcher)">
-    <button id="steam-search-btn" class="btn text-white fw-bold" type="button">Search</button>
+  
+  <!-- Header / Navigation Toggle -->
+  <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-steam fs-2 text-info"></i>
+      <h1 class="h4 mb-0 fw-bold tracking-wide">SMOKE</h1>
+    </div>
   </div>
-  <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 justify-content-center">
-    <div class="col">
-      <div class="steam-card-vertical h-100 d-flex flex-column">
-        
-        <div class="card-img-wrapper">
-          <a href="https://store.steampowered.com/app/207730" 
-            class="btn btn-primary fw-bold" 
-            target="_blank" 
-            rel="noopener noreferrer">
-            View on Steam
-          </a>
-            <i class="bi bi-plus-lg"></i>
-          </button>
-          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/620/header.jpg" alt="Portal 2">
-        </div>
 
-        <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between">
-          <div>
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <h3 class="h6 mb-0 fw-bold">
-                <a href="https://store.steampowered.com/app/620" target="_blank" rel="noopener noreferrer" class="steam-title-link">Portal 2</a>
-              </h3>
-            </div>
+  <!-- Search Bar Section -->
+  <div id="search-pane">
+    <div class="search-box mb-4 mx-auto" style="max-width: 600px;">
+      <div class="input-group input-group-lg border border-secondary border-opacity-50 rounded-3 overflow-hidden shadow-lg">
+        <span class="input-group-text bg-dark border-0 text-secondary"><i class="bi bi-search"></i></span>
+        <input type="text" id="gameQuery" class="form-control bg-dark text-light border-0 fs-6 shadow-none" placeholder="Search a game (e.g., Portal, Witcher, Cyberpunk)...">
+        <button id="steam-search-btn" class="btn btn-info fw-bold px-4 text-dark" type="button">Search</button>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 justify-content-center">
+      
+      <!-- Static Demo Card (Portal 2) -->
+      <div class="col">
+        <div class="steam-card-vertical h-100 d-flex flex-column rounded-3 border border-secondary border-opacity-25 overflow-hidden">
+          
+          <div class="card-img-wrapper position-relative">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/620/header.jpg" alt="Portal 2" class="img-fluid w-100 game-thumb">
+            <span class="position-absolute top-0 end-0 m-2 badge bg-dark bg-opacity-75 text-info border border-info border-opacity-50">
+              Cheapest: $9.99
+            </span>
           </div>
 
-          <div>
-            <div class="d-flex align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-25">
-              <div class="d-flex align-items-center gap-2">
+          <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between bg-dark bg-gradient">
+            <div>
+              <h3 class="h6 mb-2 fw-bold">
+                <a href="https://store.steampowered.com/app/620" target="_blank" rel="noopener noreferrer" class="steam-title-link text-decoration-none text-light">Portal 2</a>
+              </h3>
+            </div>
+
+            <div class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+              <!-- Platform Icons -->
+              <div class="d-flex align-items-center gap-2 text-secondary">
                 <i class="bi bi-windows platform-icon" title="Windows"></i>
                 <i class="bi bi-apple platform-icon" title="macOS"></i>
-                <span class="deck-badge" title="Steam Deck Verified">
+                <span class="deck-badge text-success small" title="Steam Deck Verified">
                   <i class="bi bi-check-circle-fill"></i> <i class="bi bi-controller"></i>
                 </span>
               </div>
 
-              <div class="steam-price-block">
-                <div class="steam-price-details">
-                  <span class="steam-final-price">$0.99</span>
-                </div>
-              </div>
+              <!-- More Info Button -->
+              <button type="button" 
+                      class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 text-uppercase fw-semibold btn-more-info"
+                      data-bs-toggle="modal" 
+                      data-bs-target="#gameInfoModal"
+                      data-title="Portal 2"
+                      data-img="https://cdn.cloudflare.steamstatic.com/steam/apps/620/header.jpg"
+                      data-price="$9.99"
+                      data-steamid="620"
+                      data-desc="Portal 2 draws from the award-winning formula of innovative gameplay, story, and music that granted the original Portal over 70 industry accolades.">
+                More Info
+              </button>
             </div>
           </div>
 
         </div>
+      </div>
 
+    </div>
+  </div>
+
+  <!-- Featured Deals Placeholder Pane -->
+  <div id="deals-pane" class="d-none text-center py-5">
+    <h2 class="h4 text-info fw-bold">🔥 Featured CheapShark Deals</h2>
+    <p class="text-secondary">Special deals list rendering layout ready.</p>
+  </div>
+
+</div>
+
+<!-- Modal Dialog for "More Info" -->
+<div class="modal fade" id="gameInfoModal" tabindex="-1" aria-labelledby="gameInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark text-light border border-secondary shadow-lg">
+      <div class="modal-header border-secondary border-opacity-50">
+        <h5 class="modal-title fw-bold text-info" id="gameInfoModalLabel">
+          <i class="bi bi-controller me-2"></i><span id="modalGameTitle">Game Title</span>
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body p-4">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <img id="modalGameImg" src="" alt="Game Header" class="img-fluid rounded border border-secondary border-opacity-25 w-100 shadow">
+          </div>
+          <div class="col-md-6 d-flex flex-column justify-content-between">
+            <div>
+              <h6 class="text-uppercase text-secondary small fw-bold tracking-wider mb-2">Overview</h6>
+              <p id="modalGameDesc" class="text-light fs-6 lh-base mb-3"></p>
+            </div>
+            
+            <div class="p-3 bg-secondary bg-opacity-10 rounded border border-secondary border-opacity-25">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="text-secondary small">Historical Low Price:</span>
+                <span id="modalGamePrice" class="fs-5 fw-bold text-success"></span>
+              </div>
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <span>Supported Platforms:</span>
+                <i class="bi bi-windows text-light"></i>
+                <i class="bi bi-apple text-light"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer border-secondary border-opacity-50 justify-content-between">
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <a id="modalSteamBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary fw-bold px-4">
+          <i class="bi bi-steam me-2"></i>Open on Steam Store
+        </a>
       </div>
     </div>
   </div>
-  <script src="js/index.js"></script>
+</div>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>
