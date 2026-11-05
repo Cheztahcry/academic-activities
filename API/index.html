@@ -32,53 +32,7 @@
 
     <!-- Cards Grid -->
     <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 justify-content-center">
-      
-      <!-- Static Demo Card (Portal 2) -->
-      <div class="col">
-        <div class="steam-card-vertical h-100 d-flex flex-column rounded-3 border border-secondary border-opacity-25 overflow-hidden">
-          
-          <div class="card-img-wrapper position-relative">
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/620/header.jpg" alt="Portal 2" class="img-fluid w-100 game-thumb">
-            <span class="position-absolute top-0 end-0 m-2 badge bg-dark bg-opacity-75 text-info border border-info border-opacity-50">
-              Cheapest: $9.99
-            </span>
-          </div>
-
-          <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between bg-dark bg-gradient">
-            <div>
-              <h3 class="h6 mb-2 fw-bold">
-                <a href="https://store.steampowered.com/app/620" target="_blank" rel="noopener noreferrer" class="steam-title-link text-decoration-none text-light">Portal 2</a>
-              </h3>
-            </div>
-
-            <div class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
-              <!-- Platform Icons -->
-              <div class="d-flex align-items-center gap-2 text-secondary">
-                <i class="bi bi-windows platform-icon" title="Windows"></i>
-                <i class="bi bi-apple platform-icon" title="macOS"></i>
-                <span class="deck-badge text-success small" title="Steam Deck Verified">
-                  <i class="bi bi-check-circle-fill"></i> <i class="bi bi-controller"></i>
-                </span>
-              </div>
-
-              <!-- More Info Button -->
-              <button type="button" 
-                      class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 text-uppercase fw-semibold btn-more-info"
-                      data-bs-toggle="modal" 
-                      data-bs-target="#gameInfoModal"
-                      data-title="Portal 2"
-                      data-img="https://cdn.cloudflare.steamstatic.com/steam/apps/620/header.jpg"
-                      data-price="$9.99"
-                      data-steamid="620"
-                      data-desc="Portal 2 draws from the award-winning formula of innovative gameplay, story, and music that granted the original Portal over 70 industry accolades.">
-                More Info
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
+      <!-- Search results generated dynamically by js/index.js -->
     </div>
   </div>
 
@@ -102,26 +56,47 @@
       </div>
       
       <div class="modal-body p-4">
-        <div class="row g-4">
-          <div class="col-md-6">
-            <img id="modalGameImg" src="" alt="Game Header" class="img-fluid rounded border border-secondary border-opacity-25 w-100 shadow">
+        <div class="row g-4 align-items-center">
+          <!-- Game Image -->
+          <div class="col-md-5">
+            <img id="modalGameImg" src="" alt="Game Banner" class="img-fluid rounded border border-secondary border-opacity-25 w-100 shadow">
           </div>
-          <div class="col-md-6 d-flex flex-column justify-content-between">
-            <div>
-              <h6 class="text-uppercase text-secondary small fw-bold tracking-wider mb-2">Overview</h6>
-              <p id="modalGameDesc" class="text-light fs-6 lh-base mb-3"></p>
-            </div>
-            
+
+          <!-- Deal Metrics & Details Container -->
+          <div class="col-md-7">
             <div class="p-3 bg-secondary bg-opacity-10 rounded border border-secondary border-opacity-25">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="text-secondary small">Historical Low Price:</span>
-                <span id="modalGamePrice" class="fs-5 fw-bold text-success"></span>
+              
+              <!-- Pricing & Savings Row -->
+              <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-secondary border-opacity-25">
+                <span class="text-secondary small fw-bold text-uppercase">Deal Details</span>
+                <div class="d-flex align-items-center gap-2">
+                  <span id="modalGameNormalPrice" class="text-secondary text-decoration-line-through small"></span>
+                  <span id="modalGamePrice" class="fs-4 fw-bold text-success"></span>
+                  <span id="modalGameSavings" class="badge bg-success"></span>
+                </div>
               </div>
-              <div class="d-flex align-items-center gap-2 small text-secondary">
-                <span>Supported Platforms:</span>
-                <i class="bi bi-windows text-light"></i>
-                <i class="bi bi-apple text-light"></i>
+
+              <!-- Structured Info List -->
+              <div class="d-flex flex-column gap-2 small">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="text-secondary"><i class="bi bi-calendar-event me-2"></i>Release Date:</span>
+                  <span id="modalGameReleaseDate" class="fw-semibold text-light">N/A</span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="text-secondary"><i class="bi bi-award me-2"></i>Metacritic Score:</span>
+                  <span id="modalGameMetacritic" class="fw-semibold text-warning">N/A</span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="text-secondary"><i class="bi bi-display me-2"></i>Supported Platforms:</span>
+                  <div class="d-flex align-items-center gap-2 text-light">
+                    <i class="bi bi-windows" title="Windows"></i>
+                    <i class="bi bi-apple" title="macOS"></i>
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
         </div>

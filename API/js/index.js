@@ -11,61 +11,91 @@ document.addEventListener('DOMContentLoaded', () => {
       results.innerHTML = '<div class="col-12 text-center py-4"><div class="spinner-border text-info" role="status"></div><p class="text-secondary mt-2">Searching CheapShark API...</p></div>';
 
       try {
-        const response = await fetch(`https://www.cheapshark.com/api/1.0/games?title=${encodeURIComponent(query)}`);
-        const games = await response.json();
-        if (games.length === 0) {
+        const game_data = await fetch(`https://www.cheapshark.com/api/1.0/games?title=${encodeURIComponent(query)}`);
+        const games = await game_data.json();
+        
+        const deals_data = await fetch(`https://www.cheapshark.com/api/1.0/deals?title=${encodeURIComponent(query)}`);
+        const deals = await deals_data.json();
+
+        if (games.length === 0 && deals.length === 0) {
           results.innerHTML = '<div class="col-12 text-center py-4"><p class="text-secondary">No games found matching that title.</p></div>';
           return;
         }
-        
-        // Render top 6 game results using the updated Steam-style card design
-        results.innerHTML = games.slice(0, 6).map(game => `
-          <div class="col">
-            <div class="steam-card-vertical h-100 d-flex flex-column rounded-3 border border-secondary border-opacity-25 overflow-hidden">
-              
-              <div class="card-img-wrapper position-relative">
-                <img src="${game.thumb}" alt="${game.external}" class="img-fluid w-100 game-thumb" style="height: 140px; object-fit: cover;">
-                <span class="position-absolute top-0 end-0 m-2 badge bg-dark bg-opacity-75 text-info border border-info border-opacity-50">
-                  From $${game.cheapest || 'N/A'}
-                </span>
-              </div>
 
-              <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between bg-dark bg-gradient">
-                <div>
-                  <h3 class="h6 mb-2 fw-bold">
-                    <a href="https://store.steampowered.com/app/${game.steamAppID}" target="_blank" rel="noopener noreferrer" class="steam-title-link text-decoration-none text-light">
-                      ${game.external}
-                    </a>
-                  </h3>
+        // Map deals by lowercase title for clean matching
+        const dealMap = new Map();
+        deals.forEach(deal => {
+          const key = deal.title.toLowerCase().trim();
+          if (!dealMap.has(key)) {
+            dealMap.set(key, deal);
+          }
+        });
+
+        // Render card items
+        results.innerHTML = games.slice(0, 6).map(game => {
+          const gameKey = game.external.toLowerCase().trim();
+          const matchDeal = dealMap.get(gameKey) || {};
+
+          const normalPrice = matchDeal.normalPrice ? `$${matchDeal.normalPrice}` : '';
+          const salePrice = matchDeal.salePrice ? `$${matchDeal.salePrice}` : `$${game.cheapest || 'N/A'}`;
+          const isOnSale = matchDeal.isOnSale === "1";
+          const savings = matchDeal.savings ? `${Math.round(parseFloat(matchDeal.savings))}% OFF` : '';
+          const metacriticScore = matchDeal.metacriticScore && matchDeal.metacriticScore !== "0" ? `${matchDeal.metacriticScore}/100` : 'N/A';
+          
+          let releaseDate = 'N/A';
+          if (matchDeal.releaseDate && matchDeal.releaseDate > 0) {
+            releaseDate = new Date(matchDeal.releaseDate * 1000).toLocaleDateString();
+          }
+
+          return `
+            <div class="col">
+              <div class="steam-card-vertical h-100 d-flex flex-column rounded-3 border border-secondary border-opacity-25 overflow-hidden">
+                
+                <div class="card-img-wrapper">
+                  <img src="${game.thumb}" alt="${game.external}" class="img-fluid w-100 game-thumb" style="height: 140px; object-fit: cover;">
                 </div>
 
-                <div class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
-                  <!-- Platform Icons -->
-                  <div class="d-flex align-items-center gap-2 text-secondary">
-                    <i class="bi bi-windows platform-icon" title="Windows"></i>
-                    <i class="bi bi-apple platform-icon" title="macOS"></i>
-                    <span class="deck-badge text-success small" title="Steam Deck Verified">
-                      <i class="bi bi-check-circle-fill"></i> <i class="bi bi-controller"></i>
-                    </span>
+                <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between bg-dark bg-gradient">
+                  <div>
+                    <h3 class="h6 mb-2 fw-bold">
+                      <a href="https://store.steampowered.com/app/${game.steamAppID}" target="_blank" rel="noopener noreferrer" class="steam-title-link text-decoration-none text-light">
+                        ${game.external}
+                      </a>
+                    </h3>
                   </div>
 
-                  <!-- Dynamic Modal Trigger -->
-                  <button type="button" 
-                          class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 text-uppercase fw-semibold btn-more-info"
-                          data-bs-toggle="modal" 
-                          data-bs-target="#gameInfoModal"
-                          data-title="${game.external.replace(/"/g, '&quot;')}"
-                          data-img="${game.thumb}"
-                          data-price="$${game.cheapest || 'N/A'}"
-                          data-steamid="${game.steamAppID}">
-                    More Info
-                  </button>
-                </div>
-              </div>
+                  <div class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2 text-secondary">
+                      <i class="bi bi-windows platform-icon" title="Windows"></i>
+                      <i class="bi bi-apple platform-icon" title="macOS"></i>
+                      <span class="deck-badge text-success small" title="Steam Deck Verified">
+                        <i class="bi bi-check-circle-fill"></i> <i class="bi bi-controller"></i>
+                      </span>
+                    </div>
 
+                    <!-- Pass deal attributes to Modal -->
+                    <button type="button" 
+                            class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 text-uppercase fw-semibold btn-more-info"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#gameInfoModal"
+                            data-title="${game.external.replace(/"/g, '&quot;')}"
+                            data-img="${game.thumb}"
+                            data-saleprice="${salePrice}"
+                            data-normalprice="${normalPrice}"
+                            data-isonsale="${isOnSale}"
+                            data-savings="${savings}"
+                            data-metacritic="${metacriticScore}"
+                            data-releasedate="${releaseDate}"
+                            data-steamid="${game.steamAppID}">
+                      More Info
+                    </button>
+                  </div>
+                </div>
+
+              </div>
             </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
 
       } catch (error) {
         console.error('Error fetching game data:', error);
@@ -85,45 +115,51 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Modal data populator logic
+    // Populate Modal window on click
     const gameInfoModal = document.getElementById('gameInfoModal');
     if (gameInfoModal) {
       gameInfoModal.addEventListener('show.bs.modal', (event) => {
         const button = event.relatedTarget;
+        
         const title = button.getAttribute('data-title') || 'Game Details';
         const img = button.getAttribute('data-img') || '';
-        const price = button.getAttribute('data-price') || 'N/A';
+        const salePrice = button.getAttribute('data-saleprice') || 'N/A';
+        const normalPrice = button.getAttribute('data-normalprice') || '';
+        const isOnSale = button.getAttribute('data-isonsale') === 'true';
+        const savings = button.getAttribute('data-savings') || '';
+        const metacritic = button.getAttribute('data-metacritic') || 'N/A';
+        const releaseDate = button.getAttribute('data-releasedate') || 'N/A';
         const steamId = button.getAttribute('data-steamid') || '';
 
         document.getElementById('modalGameTitle').textContent = title;
         document.getElementById('modalGameImg').src = img;
-        document.getElementById('modalGamePrice').textContent = price;
+        document.getElementById('modalGamePrice').textContent = salePrice;
         
-        const modalSteamBtn = document.getElementById('modalSteamBtn');
-        if (modalSteamBtn) {
-          modalSteamBtn.href = steamId ? `https://store.steampowered.com/app/${steamId}` : '#';
+        const normalPriceEl = document.getElementById('modalGameNormalPrice');
+        if (normalPriceEl) {
+          normalPriceEl.textContent = (isOnSale && normalPrice && normalPrice !== salePrice) ? normalPrice : '';
         }
-      });
-    }
 
-    const dealsBtn = document.getElementById('toggle-deals-btn');
-    const searchBtn = document.getElementById('toggle-search-btn');
-    const dealsPane = document.getElementById('deals-pane');
-    const searchPane = document.getElementById('search-pane');
+        const savingsEl = document.getElementById('modalGameSavings');
+        if (savingsEl) {
+          if (isOnSale && savings) {
+            savingsEl.textContent = savings;
+            savingsEl.style.display = 'inline-block';
+          } else {
+            savingsEl.style.display = 'none';
+          }
+        }
 
-    if (dealsBtn && searchBtn) {
-      dealsBtn.addEventListener('click', () => {
-        dealsBtn.classList.add('active');
-        searchBtn.classList.remove('active');
-        if (dealsPane) dealsPane.classList.remove('d-none');
-        if (searchPane) searchPane.classList.add('d-none');
-      });
+        const metacriticEl = document.getElementById('modalGameMetacritic');
+        if (metacriticEl) metacriticEl.textContent = metacritic;
 
-      searchBtn.addEventListener('click', () => {
-        searchBtn.classList.add('active');
-        dealsBtn.classList.remove('active');
-        if (searchPane) searchPane.classList.remove('d-none');
-        if (dealsPane) dealsPane.classList.add('d-none');
+        const releaseDateEl = document.getElementById('modalGameReleaseDate');
+        if (releaseDateEl) releaseDateEl.textContent = releaseDate;
+
+        const steamBtn = document.getElementById('modalSteamBtn');
+        if (steamBtn) {
+          steamBtn.href = steamId ? `https://store.steampowered.com/app/${steamId}` : '#';
+        }
       });
     }
 });
